@@ -1,11 +1,8 @@
-import Control.Monad
 import Data.Machine
 import System.Directory.Machine
 import System.Environment (getArgs)
 import System.IO (IOMode(..), withFile)
-import System.IO.Machine (IOSource, byLine, sourceHandle)
-import Data.ByteString (ByteString)
-import Data.Text (Text)
+import System.IO.Machine (byLine, sourceHandle)
 
 import qualified Data.Text as T
 
@@ -26,14 +23,5 @@ main = do
       count :: FilePath -> IO Int
       count file = do
         xs <- withFile file ReadMode $ \h ->
-          runT $ largest <~ (auto T.length) <~ joined <~ (auto T.words) <~ sourceHandle byLine h
+          runT $ largest <~ (auto T.length) <~ asParts <~ (auto T.words) <~ sourceHandle byLine h
         return $ head xs
-
-
-
-
-joined :: Process [a] a
-joined = f [] where
-  f []      = MachineT . return $ Await (\xs -> f xs) Refl stopped
-  f (x:xs)  = MachineT . return $ Yield x $ f xs
-
