@@ -1,27 +1,6 @@
-import Data.Machine
-import System.Directory.Machine
-import System.Environment (getArgs)
-import System.IO (IOMode(..), withFile)
-import System.IO.Machine (byLine, sourceHandle)
+import qualified Tutorial1 as T1
+import qualified Tutorial2 as T2
+import qualified Tutorial3 as T3
+import qualified Tutorial4 as T4
 
-import qualified Data.Text as T
-
-{--
-- Browse a directory
-- Read files by lines
-- Break into words
-- count word length
-- take longest
---}
-
-main :: IO ()
-main = do
-  dirs <- getArgs
-  print $ "Processing directories: " ++ show dirs
-  runT_ $ (autoM print) <~ largest <~ (autoM count) <~ files <~ directoryWalk <~ source dirs
-    where
-      count :: FilePath -> IO Int
-      count file = do
-        xs <- withFile file ReadMode $ \h ->
-          runT $ largest <~ (auto T.length) <~ asParts <~ (auto T.words) <~ sourceHandle byLine h
-        return $ head xs
+main = T4.main
