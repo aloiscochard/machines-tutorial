@@ -1,6 +1,2 @@
-resolver: nightly-2016-09-07
-
-extra-deps:
-  - machines-directory-0.2.0.9
-  - machines-io-0.2.0.13
-  - machines-process-0.2.0.8
+resolver: lts-9.8
+extra-package-dbs: []
